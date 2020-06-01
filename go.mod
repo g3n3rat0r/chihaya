@@ -3,9 +3,8 @@ module github.com/chihaya/chihaya
 go 1.14
 
 require (
-	github.com/SermoDigital/jose v0.9.2-0.20180104203859-803625baeddc
-	github.com/alicebob/gopher-json v0.0.0-20180125190556-5a6b3ba71ee6 // indirect
-	github.com/alicebob/miniredis v2.5.0+incompatible
+	github.com/alicebob/gopher-json v0.0.0-20200520072559-a9ecdc9d1d3a // indirect
+	github.com/alicebob/miniredis/v2 v2.11.4
 	github.com/anacrolix/torrent v1.15.2
 	github.com/go-redsync/redsync v1.4.2
 	github.com/gomodule/redigo v2.0.0+incompatible
@@ -16,7 +15,8 @@ require (
 	github.com/prometheus/client_golang v1.6.0
 	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/cobra v1.0.0
-	github.com/stretchr/testify v1.5.1
-	github.com/yuin/gopher-lua v0.0.0-20191220021717-ab39c6098bdb // indirect
-	gopkg.in/yaml.v2 v2.2.8
+	github.com/stretchr/testify v1.6.0
+	github.com/yuin/gopher-lua v0.0.0-20200521060427-6ff375d91eab // indirect
+	gopkg.in/yaml.v2 v2.3.0
+	gopkg.in/yaml.v3 v3.0.0-20200506231410-2ff61e1afc86 // indirect
 )

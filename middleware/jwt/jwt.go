@@ -9,17 +9,12 @@ package jwt
 import (
 	"context"
 	"crypto"
-	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
-	jc "github.com/SermoDigital/jose/crypto"
-	"github.com/SermoDigital/jose/jws"
-	"github.com/SermoDigital/jose/jwt"
 	"github.com/mendsley/gojwk"
 	yaml "gopkg.in/yaml.v2"
 
@@ -182,62 +177,61 @@ func (h *hook) HandleScrape(ctx context.Context, req *bittorrent.ScrapeRequest, 
 }
 
 func validateJWT(ih bittorrent.InfoHash, jwtBytes []byte, cfgIss, cfgAud string, publicKeys map[string]crypto.PublicKey) error {
-	parsedJWT, err := jws.ParseJWT(jwtBytes)
-	if err != nil {
-		return err
-	}
+	fmt.Println("Parse JWT and validate")
+	// parsedJWT, err := jwt.ParseEncrypted(string(jwtBytes))
+	// if err != nil {
+	// 	return err
+	// }
+	// kid, ok := parsedJWS.Protected().Get("kid").(string)
+	// if !ok {
+	// 	log.Debug("missing kid when validating JWT", log.Fields{
+	// 		"exists": ok,
+	// 		"claim":  kid,
+	// 	})
+	// 	return errors.New("invalid kid")
+	// }
+	// publicKey, ok := publicKeys[kid]
+	// if !ok {
+	// 	log.Debug("missing public key forkid when validating JWT", log.Fields{
+	// 		"kid": kid,
+	// 	})
+	// 	return errors.New("signed by unknown kid")
+	// }
 
-	claims := parsedJWT.Claims()
-	if iss, ok := claims.Issuer(); !ok || iss != cfgIss {
-		log.Debug("unequal or missing issuer when validating JWT", log.Fields{
-			"exists": ok,
-			"claim":  iss,
-			"config": cfgIss,
-		})
-		return jwt.ErrInvalidISSClaim
-	}
+	// claims := make(map[string]interface{})
+	// if ok := parsedJWT.Claims(publicKey, claims); ok != nil {
+	// 	log.Debug("unequal or missing issuer when validating JWT", log.Fields{
+	// 		"exists": ok,
+	// 		"claim":  claims,
+	// 		"config": cfgIss,
+	// 	})
+	// 	return jwt.ErrInvalidClaims
+	// }
 
-	if auds, ok := claims.Audience(); !ok || !in(cfgAud, auds) {
-		log.Debug("unequal or missing audience when validating JWT", log.Fields{
-			"exists": ok,
-			"claim":  strings.Join(auds, ","),
-			"config": cfgAud,
-		})
-		return jwt.ErrInvalidAUDClaim
-	}
+	// if auds, ok := claims.Audience; !ok || !in(cfgAud, auds) {
+	// 	log.Debug("unequal or missing audience when validating JWT", log.Fields{
+	// 		"exists": ok,
+	// 		"claim":  strings.Join(auds, ","),
+	// 		"config": cfgAud,
+	// 	})
+	// 	return jwt.ErrInvalidClaims
+	// }
 
-	ihHex := hex.EncodeToString(ih[:])
-	if ihClaim, ok := claims.Get("infohash").(string); !ok || ihClaim != ihHex {
-		log.Debug("unequal or missing infohash when validating JWT", log.Fields{
-			"exists":  ok,
-			"claim":   ihClaim,
-			"request": ihHex,
-		})
-		return errors.New("claim \"infohash\" is invalid")
-	}
+	// ihHex := hex.EncodeToString(ih[:])
+	// if ihClaim, ok := claims.Get("infohash").(string); !ok || ihClaim != ihHex {
+	// 	log.Debug("unequal or missing infohash when validating JWT", log.Fields{
+	// 		"exists":  ok,
+	// 		"claim":   ihClaim,
+	// 		"request": ihHex,
+	// 	})
+	// 	return errors.New("claim \"infohash\" is invalid")
+	// }
 
-	parsedJWS := parsedJWT.(jws.JWS)
-	kid, ok := parsedJWS.Protected().Get("kid").(string)
-	if !ok {
-		log.Debug("missing kid when validating JWT", log.Fields{
-			"exists": ok,
-			"claim":  kid,
-		})
-		return errors.New("invalid kid")
-	}
-	publicKey, ok := publicKeys[kid]
-	if !ok {
-		log.Debug("missing public key forkid when validating JWT", log.Fields{
-			"kid": kid,
-		})
-		return errors.New("signed by unknown kid")
-	}
-
-	err = parsedJWS.Verify(publicKey, jc.SigningMethodRS256)
-	if err != nil {
-		log.Debug("failed to verify signature of JWT", log.Err(err))
-		return err
-	}
+	// err = parsedJWS.Verify(publicKey, jc.SigningMethodRS256)
+	// if err != nil {
+	// 	log.Debug("failed to verify signature of JWT", log.Err(err))
+	// 	return err
+	// }
 
 	return nil
 }

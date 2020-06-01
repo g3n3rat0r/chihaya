@@ -1,15 +1,16 @@
-FROM golang:alpine AS build-env
+FROM golang:1.14 AS build-env
 LABEL maintainer "Jimmy Zelinskie <jimmyzelinskie+git@gmail.com>"
 
 # Install OS-level dependencies.
-RUN apk add --no-cache curl git
+# RUN apk add --no-cache curl git
 
 # Copy our source code into the container.
 WORKDIR /go/src/github.com/chihaya/chihaya
 COPY . /go/src/github.com/chihaya/chihaya
 
 # Install our golang dependencies and compile our binary.
-RUN CGO_ENABLED=0 go install ./cmd/chihaya
+RUN go mod download
+RUN CGO_ENABLED=0 go build
 
 FROM alpine:latest
 RUN apk add --no-cache ca-certificates
