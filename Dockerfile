@@ -9,19 +9,6 @@ WORKDIR /go/src/github.com/chihaya/chihaya
 COPY . /go/src/github.com/chihaya/chihaya
 
 # Install our golang dependencies and compile our binary.
-RUN go mod download
 RUN CGO_ENABLED=0 go build
-
-FROM alpine:latest
-RUN apk add --no-cache ca-certificates
-COPY --from=build-env /go/bin/chihaya /chihaya
-
-RUN adduser -D chihaya
-
-# Expose a docker interface to our binary.
-EXPOSE 6880 6969
-
-# Drop root privileges
-USER chihaya
-
-ENTRYPOINT ["/chihaya"]
+RUN CGO_ENABLED=0 go install -v ./...
+CMD ["./chihaya", "--config", "config.yaml"]
