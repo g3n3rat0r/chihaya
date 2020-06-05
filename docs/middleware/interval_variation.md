@@ -28,7 +28,7 @@ An example config might look like this:
 chihaya:
   prehooks:
     - name: interval variation
-      config:
+      options:
         modify_response_probability: 0.2
         max_increase_delta: 60
         modify_min_interval: true

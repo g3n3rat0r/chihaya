@@ -164,6 +164,9 @@ chihaya:
   prehooks:
     - name: desi.cd tracker
       options:
+        mysqluser: "root"
+        mysqldb: "gazelle"
+        mysqlpass: "y9#Z';r\""
   #- name: jwt
   #  options:
   #    issuer: "https://issuer.com"

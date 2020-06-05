@@ -7,6 +7,7 @@ require (
 	github.com/alicebob/miniredis/v2 v2.11.4
 	github.com/anacrolix/torrent v1.15.2
 	github.com/go-redsync/redsync v1.4.2
+	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/mendsley/gojwk v0.0.0-20141217222730-4d5ec6e58103
